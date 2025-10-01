@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import { StrictMode, CSSProperties, useState } from 'react';
-import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
 import {
@@ -37,7 +36,7 @@ const App = () => {
 	};
 
 	return (
-		<main className={clsx(styles.main)} style={style}>
+		<main className={styles.main} style={style}>
 			<ArticleParamsForm onSubmit={handleParamsSubmit} />
 			<Article />
 		</main>

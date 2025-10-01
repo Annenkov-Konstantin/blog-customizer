@@ -50,10 +50,10 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 		setSelectedFontSize(defaultArticleState.fontSizeOption);
 		setFontColor(defaultArticleState.fontColor);
 		setSelectedBGColor(defaultArticleState.backgroundColor);
-		setselectedContentWidthArr(defaultArticleState.contentWidth);
+		setSelectedContentWidthArr(defaultArticleState.contentWidth);
 	};
 
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const [selectedFontFamily, setSelectedFontFamily] = useState<OptionType>(
 		defaultArticleState.fontFamilyOption
@@ -71,22 +71,22 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 		defaultArticleState.backgroundColor
 	);
 
-	const [selectedContentWidthArr, setselectedContentWidthArr] =
+	const [selectedContentWidthArr, setSelectedContentWidthArr] =
 		useState<OptionType>(defaultArticleState.contentWidth);
 
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	const handleArrowClick = () => {
-		setIsOpen((open) => !open);
+		setIsMenuOpen((open) => !open);
 	};
 
 	useLayoutEffect(() => {
-		if (!isOpen) return;
+		if (!isMenuOpen) return;
 
 		const handleClickOutside = (event: MouseEvent) => {
 			const current = containerRef.current;
 			if (current && !current.contains(event.target as Node)) {
-				setIsOpen(false);
+				setIsMenuOpen(false);
 			}
 		};
 
@@ -94,16 +94,16 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [isOpen]);
+	}, [isMenuOpen]);
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={handleArrowClick} />
-			{isOpen && (
+			<ArrowButton isOpen={isMenuOpen} onClick={handleArrowClick} />
+			{isMenuOpen && (
 				<aside
 					ref={containerRef}
 					className={clsx(styles.container, {
-						[styles.container_open]: isOpen,
+						[styles.container_open]: isMenuOpen,
 					})}>
 					<form className={styles.form} onSubmit={handleSubmit}>
 						<Text
@@ -172,7 +172,7 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 									: defaultArticleState.contentWidth.title &&
 									  defaultArticleState.contentWidth.optionClassName
 							}
-							onChange={setselectedContentWidthArr}
+							onChange={setSelectedContentWidthArr}
 						/>
 						<div className={styles.bottomContainer}>
 							<Button title='Сбросить' onClick={handleReset} type='clear' />

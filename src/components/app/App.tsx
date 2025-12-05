@@ -1,26 +1,18 @@
-import { CSSProperties, useState } from 'react';
-
-import { Article } from 'src/components/article/Article';
+import { useState } from 'react';
+import { TInitialState, initialState } from '../../constants/articleProps';
+import clsx from 'clsx';
+import { Article } from '../../components/article';
 import {
-	ArticleParamsForm,
 	IParamsFormProps,
-} from 'src/components/article-params-form/ArticleParamsForm';
-import { defaultArticleState } from 'src/constants/articleProps';
-
+	ArticleParamsForm,
+} from '../../components/article-params-form/ArticleParamsForm';
+import '../../styles/index.scss';
 import styles from './App.module.scss';
 
 export const App = () => {
-	const cssVars: CSSProperties & { [key: `--${string}`]: string } = {
-		'--font-family': defaultArticleState.fontFamilyOption.value,
-		'--font-size': defaultArticleState.fontSizeOption.value,
-		'--font-color': defaultArticleState.fontColor.value,
-		'--container-width': defaultArticleState.contentWidth.value,
-		'--bg-color': defaultArticleState.backgroundColor.value,
-	};
+	const [style, setStyle] = useState<TInitialState>(initialState);
 
-	const [style, setStyle] = useState(cssVars);
-
-	const handleParamsSubmit = (values: IParamsFormProps) => {
+	const changeStyle = (values: IParamsFormProps) => {
 		setStyle({
 			'--font-family': values.fontFamily?.value ?? '',
 			'--font-size': values.fontSize?.value ?? '',
@@ -30,9 +22,13 @@ export const App = () => {
 		});
 	};
 
+	const resetStyle = () => {
+		setStyle({ ...initialState });
+	};
+
 	return (
-		<main className={styles.main} style={style}>
-			<ArticleParamsForm onSubmit={handleParamsSubmit} />
+		<main className={clsx(styles.main)} style={style}>
+			<ArticleParamsForm changeStyle={changeStyle} resetStyle={resetStyle} />
 			<Article />
 		</main>
 	);
